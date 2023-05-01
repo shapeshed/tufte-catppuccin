@@ -622,12 +622,17 @@ pre {
   margin-bottom: calc(var(--baseline) * 1rem);
 }
 
+figure {
+  padding: 0.5rem;
+  background: var(--ctp-latte-surface0);
+}
+
 figure img {
-  max-height: calc(var(--baseline) * 5rem);
   margin-bottom: 0;
 }
 
-aside * {
+aside *,
+figcaption {
   font-size: var(--ms0);
 }
 
@@ -860,6 +865,11 @@ pre {
 
   .kaizen {
     background-color: var(--ctp-mocha-base);
+  }
+
+  figure {
+    padding: 0.5rem;
+    background: var(--ctp-mocha-surface0);
   }
 
   /* Background */
