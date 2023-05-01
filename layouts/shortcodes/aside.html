@@ -1,0 +1,5 @@
+<aside>
+  {{ if in (string .Inner) "\n\n" }} {{ .Inner | markdownify }} {{ else }}
+  <p>{{ .Inner | markdownify }}</p>
+  {{ end }}
+</aside>

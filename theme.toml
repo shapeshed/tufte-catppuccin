@@ -1,0 +1,12 @@
+name = "Tufte Catppucin"
+license = "MIT"
+licenselink = "https://github.com/shapeshed/tufte-catppuccin/blob/main/LICENSE"
+description = "Smooth typography and sweet pastels"
+homepage = "https://shapeshed.com/"
+tags = ["blog", "catppuccin", "tufte", "typography"]
+features = ["catpuccin", "dark mode", "tufte"]
+min_version = "0.41.0"
+
+[author]
+  name = "George Ornbo"
+  homepage = "https://shapeshed.com"

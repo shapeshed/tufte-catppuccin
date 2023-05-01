@@ -1,0 +1,12 @@
+{{ define "main" }}
+
+<!-- prettier-ignore -->
+{{ with $.Site.Params.author }}
+<h1>{{ . }}</h1>
+{{ end }}
+
+
+<!-- prettier-ignore -->
+{{ partial "recent-posts.html" . }}
+
+{{ end }}
