@@ -63,7 +63,7 @@
 <a href="https://github.com/shapeshed/shapeshed.com/edit/main/content/{{ .File.Path }}">You can edit it here and send me a pull request.</a></p>
 
 {{ if not (in .Params.tags "Writing") }}
-{{ partial "recent-posts.html" . }}
+{{ partial "related.html" . }}
 {{ end }}
 {{ end }}
 </article>
