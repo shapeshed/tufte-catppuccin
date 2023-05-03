@@ -9,6 +9,7 @@ const addCopyButtons = (clipboard) => {
     button.className = "copy-code-button";
     button.type = "button";
     button.innerHTML = svgCopy;
+    button.setAttribute("aria-label", "copy-code");
     button.addEventListener("click", () => {
       clipboard.writeText(codeBlock.innerText).then(
         () => {

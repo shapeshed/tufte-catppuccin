@@ -6,6 +6,8 @@ homepage = "https://shapeshed.com/"
 tags = ["blog", "catppuccin", "tufte", "typography"]
 features = ["catpuccin", "dark mode", "tufte"]
 min_version = "0.41.0"
+copyright = 'This work is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License.'
+
 
 [author]
   name = "George Ornbo"

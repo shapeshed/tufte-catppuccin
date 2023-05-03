@@ -1,47 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8" />
     <title>{{ block "title" . }}{{ .Site.Title }}{{ end }}</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    {{ if .Site.RSSLink }}
-    <link
-      href="{{ .Site.RSSLink }}"
-      rel="alternate"
-      type="application/rss+xml"
-      title="{{ .Site.Title }}"
-    />
-    {{ end }} {{ if eq .RelPermalink "/" }}
-    <meta property="og:title" content="{{ .Title }}" />
-    <meta property="og:type" content="website" />
-    {{ else }}
-    <meta property="og:title" content="{{ .Title }} | {{ .Site.Title }}" />
-    <meta property="og:type" content="article" />
-    {{ end }}
-    <meta property="og:url" content="{{ .Permalink }}" />
-    <meta property="og:site_name" content="{{ .Site.Title }}" />
-    {{if .Params.image }}
-    <meta property="og:image" content="{{ .Site.BaseURL }}{{.Params.image}}" />
-    {{else}}
-    <meta
-      name="og:image"
-      content="https://shapeshed.com/images/george-400.jpg"
-    />
-    {{end}} <meta name="description" content="{{ if ne .Description "" }}{{
-    .Description }}{{ else }}{{ .Site.Params.description }}{{ end }}"> {{ with
-    .Params.original }}
-    <link rel="canonical" href="{{ . }}" />
-    {{ end }}
+    {{/* prettier-ignore-start */}}
+    <meta name="description" content="{{ if ne .Description "" }}{{ .Description }}{{ else }}{{ .Site.Params.description }}{{ end }}">
+    <meta name="author" content="{{ .Site.Params.author }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    {{ with .Params.tags }}<meta name="keywords" content="{{ delimit . ", "}}">{{ end }}
+    {{ "<!-- Open graph data -->" | safeHTML }}
+    <meta property="og:title" content="{{ if eq .IsHome true }}{{ .Site.Title }}{{ else }}{{ .Title }} | {{ .Site.Title }}{{ end }}">
+    <meta property="og:type" content="{{ if eq .Type "page" }}website{{ else }}article{{ end }}">
+    <meta property="og:image" content="{{ if .Params.image }}{{ .Site.BaseURL }}{{.Params.image}}{{ else }}https://shapeshed.com/images/george-400.jpg{{ end }}">
+    <meta property="og:url" content="{{ .Permalink | absURL }}">
+    <meta property="og:site_name" content="{{ .Site.Title }}">
+    <meta property="og:description" content="{{ if ne .Description "" }}{{.Description }}{{ else }}{{ .Site.Params.description }}{{ end }}">
+    {{ range .Params.tags }}<meta property="article:tag" content="{{ . }}">{{ end }}
+    {{ with .Site.Params.firstName }}<meta property="profile:first_name" content={{ . }}>{{ end }}
+    {{ with .Site.Params.lastName }}<meta property="profile:last_name" content={{ . }}>{{ end }}
+    {{ with .Site.Params.username }}<meta property="profile:username" content={{ . }}>{{ end }}
+    {{ with .Site.Params.gender }}<meta property="profile:gender" content={{ . }}>{{ end }}{{ $iso8601 := "2006-01-02T15:04:05-07:00" }}
+    {{ with .PublishDate }}<meta property="article:published_time" {{ .Format $iso8601 | printf "content=%q" | safeHTMLAttr }}>{{ end }}
+    {{ with .Lastmod }}<meta property="article:modified_time" {{ .Format $iso8601 | printf "content=%q" | safeHTMLAttr }}>{{ end }}
+    {{ "<!-- Twitter Card -->" | safeHTML }}
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ .Title }} | {{ .Site.Title }}">
+    <meta name="twitter:site" content="@shapeshed">
+    <meta name="twitter:creator" content="@shapeshed">
+    <meta name="twitter:domain" content="shapeshed.com">
+    <meta name="twitter:description" content="{{ if ne .Description "" }}{{ .Description }}{{ else }}{{ .Site.Params.description }}{{ end }}">
+    <meta name="twitter:image" content="{{ if .Params.image }}{{ .Site.BaseURL }}{{.Params.image}}{{ else }}https://shapeshed.com/images/george-400.jpg{{ end }}">
+    {{ "<!-- Link tags -->" | safeHTML }}
+    <link rel="canonical" href="{{ .Permalink | absURL }}">
+    {{ range .AlternativeOutputFormats -}}
+      {{ printf `<link rel="%s" type="%s" href="%s" title="%s">` .Rel .MediaType.Type .Permalink $.Site.Title | safeHTML }}
+    {{ end -}}
 
-    <link rel="icon" href="/favicon.ico" sizes="any" />
-    <link rel="icon" href="/icon.svg" type="image/svg+xml" />
-    <link rel="apple-touch-icon" href="icon.png" />
-    <link rel="stylesheet" href="/css/style.css" />
+
+    <link rel="icon" href="/favicon.ico" sizes="any">
+    <link rel="icon" href="/icon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="icon.png">
+    <link rel="stylesheet" href="/css/style.css">
     {{ template "_internal/google_analytics.html" . }}
+    {{/* prettier-ignore-end */}}
   </head>
   <body>
     <div class="wrapper">
-      {{- block "main" . }} {{- end }} {{- partial "footer.html" . -}}
+      {{/* prettier-ignore-start */}}
+            {{- block "main" . }}
+            {{- end }}
+            {{- partial "footer.html" . -}}
+      {{/* prettier-ignore-end */}}
     </div>
     <script src="/js/copy-code-button.js"></script>
   </body>
