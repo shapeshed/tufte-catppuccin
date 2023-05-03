@@ -609,6 +609,18 @@ h3 {
   margin-bottom: calc(var(--baseline) * 0.5rem);
 }
 
+h2 a,
+h3 a,
+h4 a {
+  visibility: hidden;
+}
+
+h2:hover a,
+h3:hover a,
+h4:hover a {
+  visibility: visible;
+}
+
 p,
 ul,
 ol,
@@ -1272,10 +1284,12 @@ footer {
   position: relative;
   z-index: 0;
 }
+
 footer ul li {
   display: inline;
   margin-right: 1rem;
 }
+
 footer ul li::marker {
   content: none !important;
 }
@@ -1288,6 +1302,12 @@ footer:before {
   z-index: 1;
   left: 50%;
   text-align: centre;
+}
+footer ul {
+  float: left;
+}
+footer p {
+  float: right;
 }
 
 @media (prefers-color-scheme: light) {
