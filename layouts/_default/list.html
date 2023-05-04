@@ -1,15 +1,36 @@
 {{ define "main" }}
-<h1>{{ .Title }}</h1>
+  <div class="archive">
+    <h1>{{ .Title }}</h1>
 
-{{ .Content }}
+    {{ .Content }}
 
-<ul class="posts">
-{{ range .Data.Pages }}
-  <li>
-    <time datetime="{{ .Date.Format "2006-01-02T15:04:05" }}" data-updated="true">{{ .Date.Format "Jan 2, 2006" }}</time>
-    <a href="{{ .Permalink }}">{{ .Title }}</a>
-  </li>
-{{ end }}
-</ul>
+    {{ if eq .Section "posts" }}
+      <p>{{ len .Data.Pages }} posts over the last 17 years (☉__☉”).</p>
 
+      <ul>
+        {{- range (where .Data.Pages.ByDate.Reverse "Section" "posts").GroupByDate "2006" -}}
+          <li><a href="#{{ .Key }}">{{ .Key }} ({{ len .Pages }} posts)</a></li>
+        {{ end }}
+      </ul>
+
+      {{ range (where .Data.Pages.ByDate.Reverse "Section" "posts").GroupByDate "2006" }}
+        <h2 id="{{ .Key }}">
+          {{ .Key }} ({{ len .Pages }} posts)
+          <a href="#{{ .Key }}" class="anchor">#</a>
+        </h2>
+        <ul class="posts">
+          {{ range .Pages }}
+            <li>
+              <time
+                datetime="{{ .Date.Format "2006-01-02T15:04:05" }}"
+                data-updated="true"
+                >{{ .Date.Format "Jan 2, 2006" }}</time
+              >
+              <a href="{{ .Permalink }}">{{ .Title }}</a>
+            </li>
+          {{ end }}
+        </ul>
+      {{ end }}
+    {{ end }}
+  </div>
 {{ end }}
