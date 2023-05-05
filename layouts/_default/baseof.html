@@ -42,7 +42,8 @@
     <link rel="apple-touch-icon" href="{{ .Site.BaseURL }}apple-touch-icon.png"><!-- 180×180 -->
     <link rel="manifest" href="{{ .Site.BaseURL }}manifest.webmanifest">
 
-    <link rel="stylesheet" href="/css/style.css">
+    {{ $css := resources.Get "css/style.css" | resources.Minify }}
+    <style>{{ $css.Content | safeCSS }}</style>
     {{ template "_internal/google_analytics.html" . }}
     {{/* prettier-ignore-end */}}
   </head>
@@ -54,6 +55,7 @@
             {{- partial "footer.html" . -}}
       {{/* prettier-ignore-end */}}
     </div>
-    <script src="/js/copy-code-button.js"></script>
+    {{ $js := resources.Get "js/copy-code-button.js" | resources.Minify }}
+    <script>{{ $js.Content | safeJS }}</script>
   </body>
 </html>
