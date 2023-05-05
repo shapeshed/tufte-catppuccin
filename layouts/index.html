@@ -1,12 +1,13 @@
 {{ define "main" }}
+    <!-- prettier-ignore -->
+    <div class="inner">
 
-<!-- prettier-ignore -->
-{{ with $.Site.Params.author }}
-<h1>{{ . }}</h1>
-{{ end }}
+    <!-- prettier-ignore -->
+    {{ with $.Site.Params.author }}
+    <h1>{{ . }}</h1>
+    {{ end }}
 
-
-<!-- prettier-ignore -->
-{{ partial "recent-posts.html" . }}
-
+    <!-- prettier-ignore -->
+    {{ partial "recent-posts.html" . }}
+    </div>
 {{ end }}
