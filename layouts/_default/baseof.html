@@ -11,7 +11,7 @@
     {{ "<!-- Open graph data -->" | safeHTML }}
     <meta property="og:title" content="{{ if eq .IsHome true }}{{ .Site.Title }}{{ else }}{{ .Title }} | {{ .Site.Title }}{{ end }}">
     <meta property="og:type" content="{{ if eq .Type "page" }}website{{ else }}article{{ end }}">
-    <meta property="og:image" content="{{ if .Params.image }}{{ .Site.BaseURL }}{{.Params.image}}{{ else }}https://shapeshed.com/images/george-400.jpg{{ end }}">
+    <meta property="og:image" content="{{ if .Params.image }}{{ .Site.BaseURL }}{{.Params.image}}{{ else }}{{ .Site.BaseURL }}icon-512.png{{ end }}">
     <meta property="og:url" content="{{ .Permalink | absURL }}">
     <meta property="og:site_name" content="{{ .Site.Title }}">
     <meta property="og:description" content="{{ if ne .Description "" }}{{.Description }}{{ else }}{{ .Site.Params.description }}{{ end }}">
@@ -29,7 +29,7 @@
     <meta name="twitter:creator" content="@shapeshed">
     <meta name="twitter:domain" content="shapeshed.com">
     <meta name="twitter:description" content="{{ if ne .Description "" }}{{ .Description }}{{ else }}{{ .Site.Params.description }}{{ end }}">
-    <meta name="twitter:image" content="{{ if .Params.image }}{{ .Site.BaseURL }}{{.Params.image}}{{ else }}https://shapeshed.com/images/george-400.jpg{{ end }}">
+    <meta name="twitter:image" content="{{ if .Params.image }}{{ .Site.BaseURL }}{{.Params.image}}{{ else }}{{ .Site.BaseURL }}icon-512.png{{ end }}">
     {{ "<!-- Link tags -->" | safeHTML }}
     <link rel="canonical" href="{{ .Permalink | absURL }}">
     {{ range .AlternativeOutputFormats -}}
