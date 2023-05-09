@@ -2,6 +2,7 @@
   <picture>
     {{- $isJPG := eq (path.Ext .Destination) ".jpg" -}}
     {{- $isPNG := eq (path.Ext .Destination) ".png" -}}
+    {{- $isSVG := eq (path.Ext .Destination) ".svg" -}}
 
     {{- if ($isJPG) -}}
       {{- $avifPath:= replace .Destination ".jpg" ".avif" -}}
@@ -36,18 +37,42 @@
       {{- end -}}
 
     {{- end -}}
-
-    {{- $img := imageConfig (add "/static" (.Destination | safeURL)) -}}
-
-
-    <img
-      src="{{- .Destination | safeURL -}}"
-      alt="{{- .Text -}}"
-      loading="lazy"
-      decoding="async"
-      width="{{- $img.Width -}}"
-      height="{{- $img.Height -}}"
-    />
+    {{- if ($isSVG) -}}
+      {{- $swfPathDark:= replace .Destination ".svg" "-dark.svg" -}}
+      <source
+        srcset="{{- .Destination| safeURL -}}"
+        type="image/svg+xml"
+        media="(prefers-color-scheme: light)"
+      />
+      <source
+        srcset="{{- $swfPathDark| safeURL -}}"
+        type="image/svg+xml"
+        media="(prefers-color-scheme: dark)"
+      />
+      <source
+        srcset="{{- replace .Destination ".svg" "-dark.png"| safeURL -}}"
+        type="image/png"
+        media="(prefers-color-scheme: dark)"
+      />
+      <img
+        src="{{- replace .Destination ".svg" ".png" | safeURL -}}"
+        alt="{{- .Text -}}"
+        loading="lazy"
+        decoding="async"
+        width="600"
+        height="400"
+      />
+    {{- else -}}
+      {{- $img := imageConfig (add "/static" (.Destination | safeURL)) -}}
+      <img
+        src="{{- .Destination | safeURL -}}"
+        alt="{{- .Text -}}"
+        loading="lazy"
+        decoding="async"
+        width="{{- $img.Width -}}"
+        height="{{- $img.Height -}}"
+      />
+    {{- end -}}
   </picture>
   {{ with .Text | safeHTML }}<figcaption>{{ . }}</figcaption>{{ end }}
 </figure>
