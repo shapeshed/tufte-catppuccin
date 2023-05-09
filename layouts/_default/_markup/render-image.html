@@ -1,3 +1,4 @@
+<!-- prettier-ignore-start -->
 <figure>
   <picture>
     {{- $isJPG := eq (path.Ext .Destination) ".jpg" -}}
@@ -9,14 +10,14 @@
       {{- $avifPathStatic:= printf "static%s" $avifPath -}}
 
       {{- if (fileExists $avifPathStatic) -}}
-        <source srcset="{{- $avifPath | safeURL -}}" type="image/avif" />
+        <source srcset="{{- $avifPath | safeURL -}}" type="image/avif">
       {{- end -}}
 
       {{- $webpPath:= replace .Destination ".jpg" ".webp" -}}
       {{- $webpPathStatic:= printf "static%s" $webpPath -}}
 
       {{- if (fileExists $webpPathStatic) -}}
-        <source srcset="{{- $webpPath | safeURL -}}" type="image/webp" />
+        <source srcset="{{- $webpPath | safeURL -}}" type="image/webp">
       {{- end -}}
 
     {{- end -}}
@@ -26,14 +27,14 @@
       {{- $avifPathStatic:= printf "static%s" $avifPath -}}
 
       {{- if (fileExists $avifPathStatic) -}}
-        <source srcset="{{- $avifPath | safeURL -}}" type="image/avif" />
+        <source srcset="{{- $avifPath | safeURL -}}" type="image/avif">
       {{- end -}}
 
       {{- $webpPath:= replace .Destination ".png" ".webp" -}}
       {{- $webpPathStatic:= printf "static%s" $webpPath -}}
 
       {{- if (fileExists $webpPathStatic) -}}
-        <source srcset="{{- $webpPath | safeURL -}}" type="image/webp" />
+        <source srcset="{{- $webpPath | safeURL -}}" type="image/webp">
       {{- end -}}
 
     {{- end -}}
@@ -42,26 +43,22 @@
       <source
         srcset="{{- .Destination| safeURL -}}"
         type="image/svg+xml"
-        media="(prefers-color-scheme: light)"
-      />
+        media="(prefers-color-scheme: light)">
       <source
         srcset="{{- $swfPathDark| safeURL -}}"
         type="image/svg+xml"
-        media="(prefers-color-scheme: dark)"
-      />
+        media="(prefers-color-scheme: dark)">
       <source
         srcset="{{- replace .Destination ".svg" "-dark.png"| safeURL -}}"
         type="image/png"
-        media="(prefers-color-scheme: dark)"
-      />
+        media="(prefers-color-scheme: dark)">
       <img
         src="{{- replace .Destination ".svg" ".png" | safeURL -}}"
         alt="{{- .Text -}}"
         loading="lazy"
         decoding="async"
         width="600"
-        height="400"
-      />
+        height="400">
     {{- else -}}
       {{- $img := imageConfig (add "/static" (.Destination | safeURL)) -}}
       <img
@@ -71,8 +68,9 @@
         decoding="async"
         width="{{- $img.Width -}}"
         height="{{- $img.Height -}}"
-      />
+      >
     {{- end -}}
   </picture>
   {{ with .Text | safeHTML }}<figcaption>{{ . }}</figcaption>{{ end }}
 </figure>
+<!-- prettier-ignore-end -->
