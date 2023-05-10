@@ -1,4 +1,5 @@
 <!-- prettier-ignore-start -->
+{{ $hero := .Attributes.class }}
 <figure>
   <picture>
     {{- $isJPG := eq (path.Ext .Destination) ".jpg" -}}
@@ -61,14 +62,11 @@
         height="400">
     {{- else -}}
       {{- $img := imageConfig (add "/static" (.Destination | safeURL)) -}}
-      <img
-        src="{{- .Destination | safeURL -}}"
-        alt="{{- .Text -}}"
-        loading="lazy"
-        decoding="async"
-        width="{{- $img.Width -}}"
+      <img src="{{- .Destination | safeURL -}}" 
+        alt="{{- .Text -}}" 
+        width="{{- $img.Width -}}" 
         height="{{- $img.Height -}}"
-      >
+        {{ with $hero }}{{ else }} loading="lazy" decoding="async"{{ end }}>
     {{- end -}}
   </picture>
   {{ with .Text | safeHTML }}<figcaption>{{ . }}</figcaption>{{ end }}
