@@ -1,13 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>{{ block "title" . }}{{ .Site.Title }}{{ end }}</title>
     {{/* prettier-ignore-start */}}
+    <title>{{ block "title" . }}{{ .Site.Title }}{{ end }}</title>
     <meta name="description" content="{{ if ne .Description "" }}{{ .Description }}{{ else }}{{ .Site.Params.description }}{{ end }}">
     <meta name="author" content="{{ .Site.Params.author }}">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta charset="utf-8">
-    {{ with .Params.tags }}<meta name="keywords" content="{{ delimit . ", "}}">{{ end }}
+    <meta charset="utf-8">{{ with .Params.tags }}<meta name="keywords" content="{{ delimit . ", "}}">{{ end }}
     {{ "<!-- Open graph data -->" | safeHTML }}
     <meta property="og:title" content="{{ if eq .IsHome true }}{{ .Site.Title }}{{ else }}{{ .Title }} | {{ .Site.Title }}{{ end }}">
     <meta property="og:type" content="{{ if eq .Type "page" }}website{{ else }}article{{ end }}">
@@ -32,16 +31,12 @@
     <meta name="twitter:image" content="{{ if .Params.image }}{{ .Site.BaseURL }}{{.Params.image}}{{ else }}{{ .Site.BaseURL }}icon-512.png{{ end }}">
     {{ "<!-- Link tags -->" | safeHTML }}
     <link rel="canonical" href="{{ .Permalink | absURL }}">
-    {{ range .AlternativeOutputFormats -}}
-      {{ printf `<link rel="%s" type="%s" href="%s" title="%s">` .Rel .MediaType.Type .Permalink $.Site.Title | safeHTML }}
-    {{ end -}}
-
+    <link rel="alternate" type="application/rss+xml" href="{{ .Site.BaseURL }}index.xml" title="{{ .Site.Title }}">
     {{ "<!-- Icons -->" | safeHTML }}
     <link rel="icon" href="{{ .Site.BaseURL }}favicon.ico" sizes="any"><!-- 32×32 -->
     <link rel="icon" href="{{ .Site.BaseURL }}icon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="{{ .Site.BaseURL }}apple-touch-icon.png"><!-- 180×180 -->
     <link rel="manifest" href="{{ .Site.BaseURL }}manifest.webmanifest">
-
     {{ $css := resources.Get "css/style.css" | resources.Minify }}
     <style>{{ $css.Content | safeCSS }}</style>
     {{ template "_internal/google_analytics.html" . }}
