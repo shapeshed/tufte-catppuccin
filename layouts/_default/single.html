@@ -11,10 +11,15 @@
             },
             "headline": {{ .Title }},
             "image": {
-              "@type": "ImageObject",
+              "@type": "ImageObject",{{ with resources.GetMatch .Params.image }}
+              "url": "{{ .Permalink }}",
+              "height": "{{ .Height }}",
+              "width": "{{ .Width }}"
+              {{ else }} 
               "url": "{{ .Site.BaseURL }}images/george-700.jpg",
               "height": 700,
               "width": 700
+              {{ end }}
             },
             "copyrightYear" : "{{ .Date.Format "2006" }}",
             "url" : "{{ .Permalink }}",
@@ -43,6 +48,11 @@
           }
         </script>
     <h1>{{ .Title }}</h1>
+    <!-- 1600 x 1200 for cover image -->
+    <!-- resized to 620 q85 h2 lanczos -->
+    <!-- resized to 860 q80 h2 lanczos -->
+    <!-- resized to 1200 q40 h2 lanczos -->
+    <!-- resized to 1200 q30 h2 lanczos -->
     {{ with page.Description }}
       <p>{{ . }}</p>
     {{ end }}
@@ -70,6 +80,42 @@
         {{ end }}
       </ul>
     </aside>
+
+    {{ with resources.GetMatch .Params.image }}
+      {{ $image := resources.Get . }}
+
+
+      <!-- 16:9 2048:1152 -->
+      <!-- 4:3 2048:1536 -->
+      {{ $mobileImageWebP := $image.Resize "620x q70 Lanczos webp" }}
+      {{ $imageWebP := $image.Resize "860x q90 Lanczos webp" }}
+      {{ $mobileImage := $image.Resize "620x q40 Lanczos" }}
+      {{ $image := $image.Resize "860x q40 Lanczos" }}
+
+
+      <figure>
+        <picture>
+          <source
+            media="(max-width: 767px)"
+            srcset="{{ $mobileImageWebP.Permalink }}"
+          >
+          <source
+            media="(min-width: 768px)"
+            srcset="{{ $imageWebP.Permalink }}"
+          >
+          <source
+            media="(max-width: 767px)"
+            srcset="{{ $mobileImage.Permalink }}"
+          >
+          <source media="(min-width: 768px)" srcset="{{ $image.Permalink }}" />
+          <img src="{{ $image.Permalink }}" alt="{{ $.Params.caption }}" />
+        </picture>
+        {{ with $.Params.caption }}
+          <figcaption>{{ $.Params.caption }}</figcaption>
+        {{ end }}
+      </figure>
+    {{ end }}
+
     {{ .Content }}
     {{ if not (in .Params.tags "Writing") }}
       <p class="kaizen">
