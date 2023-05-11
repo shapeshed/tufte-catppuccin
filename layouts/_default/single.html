@@ -108,7 +108,7 @@
             srcset="{{ $mobileImage.Permalink }}"
           >
           <source media="(min-width: 768px)" srcset="{{ $image.Permalink }}" />
-          <img src="{{ $image.Permalink }}" alt="{{ $.Params.caption }}" />
+          <img src="{{ $image.Permalink }}" alt="{{ $.Params.caption }}" width="{{ $image.Width }}" height="{{ $image.Height }}" />
         </picture>
         {{ with $.Params.caption }}
           <figcaption>{{ $.Params.caption }}</figcaption>
