@@ -388,8 +388,12 @@ blockquote p {
 }
 
 ul.meta {
+  font-size: calc(var(--ms0));
   list-style: none;
   font-weight: bold;
+}
+ul.meta li {
+  display: inline;
 }
 
 ul.meta li:not(:first-child) {
@@ -399,17 +403,6 @@ ul.meta li:not(:first-child) {
 
 ul.meta li::marker {
   content: none;
-}
-
-ul.meta li.tag {
-  font-style: normal;
-  display: none;
-}
-
-ul.posts li time {
-  display: inline-block;
-  width: 7rem;
-  font-style: italic;
 }
 
 code {
@@ -490,10 +483,6 @@ pre {
     max-width: 1024px;
     padding: 0 2rem;
     margin: auto;
-  }
-
-  ul.meta {
-    text-align: right;
   }
 
   .highlight {

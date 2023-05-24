@@ -11,11 +11,11 @@
             },
             "headline": {{ .Title }},
             "image": {
-              "@type": "ImageObject",{{ with resources.GetMatch .Params.image }}
+              "@type": "ImageObject",{{ with .Resources.GetMatch "images/hero.*" }}
               "url": "{{ .Permalink }}",
-              "height": "{{ .Height }}",
               "width": "{{ .Width }}"
-              {{ else }} 
+              "height": "{{ .Height }}",
+              {{ else }}
               "url": "{{ .Site.BaseURL }}images/george-700.jpg",
               "height": 700,
               "width": 700
@@ -56,7 +56,43 @@
     {{ with page.Description }}
       <p>{{ . }}</p>
     {{ end }}
-    <aside class="three-row">
+    {{ with .Resources.GetMatch "images/hero.*" }}
+
+    {{ $image := . }}
+
+
+      <!-- 16:9 2048:1152 -->
+      <!-- 4:3 2048:1536 -->
+      {{ $mobileImageWebP := $image.Resize "620x q70 Lanczos webp" }}
+      {{ $imageWebP := $image.Resize "1600x q80 Lanczos webp" }}
+      {{ $mobileImage := $image.Resize "620x q40 Lanczos" }}
+      {{ $default := $image.Resize "860x q40 Lanczos" }}
+
+
+      <figure class="fullbleed">
+        <a href="{{ $image.Permalink }}">
+        <picture>
+          <source
+            media="(max-width: 767px)"
+            srcset="{{ $mobileImageWebP.Permalink }}"
+          >
+          <source
+            media="(min-width: 768px)"
+            srcset="{{ $imageWebP.Permalink }}"
+          >
+          <source
+            media="(max-width: 767px)"
+            srcset="{{ $mobileImage.Permalink }}"
+          >
+          <source media="(min-width: 768px)" srcset="{{ $image.Permalink }}" />
+          <img src="{{ $default.Permalink }}" alt="{{ $.Params.caption }}" width="{{ $default.Width }}" height="{{ $default.Height }}" />
+        </picture>
+        </a>
+        {{ with $.Params.caption }}
+          <figcaption>{{ $.Params.caption }}</figcaption>
+        {{ end }}
+      </figure>
+    {{ end }}
       <ul class="meta">
         <li>
           <time
@@ -75,49 +111,11 @@
             >{{ .Lastmod.Format "January 2, 2006" }}</time
           >
         </li>
-        {{ range .Params.tags }}
-          <li class="tag"><a href="/tags/{{ . | urlize }}/">{{ . }}</a></li>
-        {{ end }}
       </ul>
-    </aside>
-
-    {{ with resources.GetMatch .Params.image }}
-      {{ $image := resources.Get . }}
-
-
-      <!-- 16:9 2048:1152 -->
-      <!-- 4:3 2048:1536 -->
-      {{ $mobileImageWebP := $image.Resize "620x q70 Lanczos webp" }}
-      {{ $imageWebP := $image.Resize "860x q90 Lanczos webp" }}
-      {{ $mobileImage := $image.Resize "620x q40 Lanczos" }}
-      {{ $image := $image.Resize "860x q40 Lanczos" }}
-
-
-      <figure>
-        <picture>
-          <source
-            media="(max-width: 767px)"
-            srcset="{{ $mobileImageWebP.Permalink }}"
-          >
-          <source
-            media="(min-width: 768px)"
-            srcset="{{ $imageWebP.Permalink }}"
-          >
-          <source
-            media="(max-width: 767px)"
-            srcset="{{ $mobileImage.Permalink }}"
-          >
-          <source media="(min-width: 768px)" srcset="{{ $image.Permalink }}" />
-          <img src="{{ $image.Permalink }}" alt="{{ $.Params.caption }}" width="{{ $image.Width }}" height="{{ $image.Height }}" />
-        </picture>
-        {{ with $.Params.caption }}
-          <figcaption>{{ $.Params.caption }}</figcaption>
-        {{ end }}
-      </figure>
-    {{ end }}
 
     {{ .Content }}
     {{ if not (in .Params.tags "Writing") }}
+      {{ partial "tags.html" . }}
       <p class="kaizen">
         Can you help make this article better?
         <a
