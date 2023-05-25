@@ -13,12 +13,12 @@
             "image": {
               "@type": "ImageObject",{{ with .Resources.GetMatch "images/hero.*" }}
               "url": "{{ .Permalink }}",
-              "width": "{{ .Width }}"
-              "height": "{{ .Height }}",
+              "width": "{{ .Width }}",
+              "height": "{{ .Height }}"
               {{ else }}
               "url": "{{ .Site.BaseURL }}images/george-700.jpg",
-              "height": 700,
-              "width": 700
+              "width": 700,
+              "height": 700
               {{ end }}
             },
             "copyrightYear" : "{{ .Date.Format "2006" }}",
